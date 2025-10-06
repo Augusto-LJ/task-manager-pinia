@@ -4,7 +4,7 @@ const tasks= [
     {
       name: "Website design",
       description: "Define the style guide, branding and create the webdesign on Figma.",
-      completed: true
+      completed: false
     },
     {
       name: "Website development",
@@ -70,35 +70,20 @@ const tasks= [
 
     <div class="tasks">
       
-      <div class="task">
+      <div v-for="task in tasks" class="task">
         <h3>
-          Website design
+          {{ task.name }}
         </h3>
         <p>
-          Define the style guide, branding and create the webdesign on Figma.
+          {{ task.description }}
         </p>
         <div class="task-check">
-          <input type="checkbox" checked />
+          <input type="checkbox" :checked="task.completed" />
           <label>
             Done
           </label>
         </div>
-      </div>
-
-      <div class="task">
-        <h3>
-          Website development
-        </h3>
-        <p>
-          Develop the portfolio website using Vue JS.
-        </p>
-        <div class="task-check">
-          <input type="checkbox"/>
-          <label>
-            To-Do
-          </label>
-        </div>
-      </div>
+      </div>      
 
     </div>
 
