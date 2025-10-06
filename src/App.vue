@@ -1,6 +1,7 @@
 <script setup>
+import {reactive} from 'vue';
 
-const tasks= [
+const tasks = reactive([
     {
       name: "Website design",
       description: "Define the style guide, branding and create the webdesign on Figma.",
@@ -36,8 +37,19 @@ const tasks= [
       description: "Open a bank account for my freelance business.",
       completed: false
     }
-];
+]);
 
+let newTask = {completed: false};
+
+function addTask() {
+  if (newTask.name && newTask.description){
+    tasks.push(newTask);
+    newTask = {completed: false};
+  }
+  else{
+    alert("Please fill the blank spaces");
+  };
+}
 </script>
 
 <template>
@@ -89,9 +101,9 @@ const tasks= [
 
     <div class="add-task">
       <h3>Add a new task</h3>
-      <input type="text" name="title" placeholder="Enter a title..."><br />
-      <textarea name="description" rows="4" placeholder="Enter a description..." /><br />
-      <button class="btn gray">Add Task</button>
+      <input v-model="newTask.name" type="text" name="title" placeholder="Enter a title..."><br />
+      <textarea v-model="newTask.description" name="description" rows="4" placeholder="Enter a description..." /><br />
+      <button @click="addTask" class="btn gray">Add Task</button>
 
     </div>
 
