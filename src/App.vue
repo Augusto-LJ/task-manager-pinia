@@ -6,37 +6,44 @@ const tasks = reactive([
     {
       name: "Website design",
       description: "Define the style guide, branding and create the webdesign on Figma.",
-      completed: false
+      completed: false,
+      id: 1
     },
     {
       name: "Website development",
       description: "Develop the portfolio website using Vue JS.",
-      completed: false
+      completed: false,
+      id: 2
     },
     {
       name: "Hosting and infrastructure",
       description: "Define hosting, domain and infrastructure for the portfolio website.",
-      completed: false
+      completed: false,
+      id: 3
     },
     {
       name: "Composition API",
       description: "Learn how to use the composition API and how it compares to the options API.",
-      completed: true
+      completed: true,
+      id: 4
     },
     {
       name: "Pinia",
       description: "Learn how to setup a store using Pinia.",
-      completed: true
+      completed: true,
+      id: 5
     },
     {
       name: "Groceries",
       description: "Buy rice, apples and potatos.",
-      completed: false
+      completed: false,
+      id: 6
     },
     {
       name: "Bank account",
       description: "Open a bank account for my freelance business.",
-      completed: false
+      completed: false,
+      id: 7
     }
 ]);
 
@@ -44,12 +51,18 @@ let newTask = {completed: false};
 
 function addTask() {
   if (newTask.name && newTask.description){
+    newTask.id = Math.max(...tasks.map(task => task.id)) + 1;
     tasks.push(newTask);
     newTask = {completed: false};
   }
   else{
     alert("Please fill the blank spaces");
   };
+}
+
+function toggleCompleted(id) {
+  let targetTask = tasks.find(x => x.id === id);
+  targetTask.completed = !targetTask.completed;
 }
 </script>
 
@@ -82,7 +95,7 @@ function addTask() {
     </div>
 
     <div class="tasks">
-      <Task v-for="task in tasks" :task="task"/>
+      <Task @toggleCompleted="toggleCompleted" v-for="task in tasks" :task="task"/>
 
     </div>
 
