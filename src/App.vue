@@ -1,6 +1,7 @@
 <script setup>
-import {reactive} from 'vue';
+import {reactive, ref, computed} from 'vue';
 import Task from "./components/Task.vue";
+import Filter from "./components/Filter.vue";
 
 const tasks = reactive([
     {
@@ -49,6 +50,19 @@ const tasks = reactive([
 
 let newTask = {completed: false};
 
+let filterBy = ref("");
+
+const filteredTasks = computed(() => {
+  switch (filterBy.value) {
+    case 'todo':
+      return tasks.filter(x => !x.completed);
+    case 'done':
+      return tasks.filter(x => x.completed);
+    default:
+      return tasks
+  }
+})
+
 function addTask() {
   if (newTask.name && newTask.description){
     newTask.id = Math.max(...tasks.map(task => task.id)) + 1;
@@ -64,6 +78,10 @@ function toggleCompleted(id) {
   let targetTask = tasks.find(x => x.id === id);
   targetTask.completed = !targetTask.completed;
 }
+
+function setFilter(value){
+  filterBy.value = value;
+}
 </script>
 
 <template>
@@ -76,26 +94,11 @@ function toggleCompleted(id) {
         </h1>
       </div>
     </div>
-    
-    <div class="filters">
-      <div>
-        <p>Filter by state</p>
-        <div class="badges">
-          <div class="badge">
-            To-Do
-          </div>
-          <div class="badge">
-            Done
-          </div>
-          <span class="clear">
-            x clear
-          </span>
-        </div>
-      </div>
-    </div>
+
+    <Filter @setFilter="setFilter" :filterBy="filterBy"/>
 
     <div class="tasks">
-      <Task @toggleCompleted="toggleCompleted" v-for="task in tasks" :task="task"/>
+      <Task @toggleCompleted="toggleCompleted" v-for="task in filteredTasks" :task="task"/>
 
     </div>
 
