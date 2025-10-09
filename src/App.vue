@@ -2,6 +2,7 @@
 import {reactive, ref, computed} from 'vue';
 import Task from "./components/Task.vue";
 import Filter from "./components/Filter.vue";
+import ModalWindow from "./components/ModalWindow.vue";
 
 const tasks = reactive([
     {
@@ -52,6 +53,8 @@ let newTask = {completed: false};
 
 let filterBy = ref("");
 
+let modalIsActive = ref(false);
+
 const filteredTasks = computed(() => {
   switch (filterBy.value) {
     case 'todo':
@@ -93,6 +96,9 @@ function setFilter(value){
           Tasks Manager
         </h1>
       </div>
+      <div class="header-side">
+        <button @click="modalIsActive=true" class="btn secondary">+ Add Task</button>
+      </div>
     </div>
 
     <Filter @setFilter="setFilter" :filterBy="filterBy"/>
@@ -107,8 +113,9 @@ function setFilter(value){
       <input v-model="newTask.name" type="text" name="title" placeholder="Enter a title..."><br />
       <textarea v-model="newTask.description" name="description" rows="4" placeholder="Enter a description..." /><br />
       <button @click="addTask" class="btn gray">Add Task</button>
-
     </div>
+
+    <ModalWindow @closePopup="modalIsActive=false" v-if="modalIsActive"/>
 
   </main>
   
