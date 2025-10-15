@@ -1,6 +1,7 @@
 # ✅ Task Manager
 
 A simple and functional **Single Page Application (SPA)** that helps you track your tasks.
+The objective of this project was to learn about Pinia.
 
 ## 🚀 Technologies
 
